@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="./node_modules/jquery/dist/jquery.min.js"></script>
+    <script defer src="./topicJS/topicList.js"></script>
+    
+    <title>Topic List</title>
+</head>
+<body>
+    <div>
+        <h2>Topic List</h2>
+    </div>
+        <div>
+            <table id="topicTable">
+                <thead>
+                    <tr>
+                        <th>No</th>
+                        <th>Title</th>
+                        <th>age</th>
+                        <th>Creation Date</th>
+                    </tr>
+                </thead>
+                <tbody id="topicList"></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div>
+        <h3>Add Topic</h3>
+        <form id="addTopic" action="">
+            <label> Title: 
+                <input  type="text" name="title" placeholder="제목" required>
+            </label></br>
+            <label> AGE: 
+                <input  type="number" name="age"  max= "100" placeholder="나이" required>
+            </label></br>
+                <label> Description: 
+            <input  type="text" name="desc" placeholder="공지 내용" required>
+            </label></br>
+            <button  type="submit">SUBMIT</button>
+        </form>
+      </div>
+</body>
+</html>
