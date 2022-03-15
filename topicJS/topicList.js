@@ -1,69 +1,82 @@
-let today = new Date();
-let year = today.getFullYear();
-let month = ('0' + (today.getMonth() + 1)).slice(-2);
-let day = ('0' + today.getDate()).slice(-2);
-
-let dateString = year + '-' + month  + '-' + day;
-
-const topics = [
-  {
-    id: 1,
-    title: "test",
-    description: "test",
-    age: 0,
-    createAt: dateString,
-  },
-  {
-    id: 2,
-    title: "test",
-    description: "test",
-    age: 0,
-    createAt: dateString,
-  },
-]
-
-// let getTopics = fetch("http://localhost:8080/topic").then((req) => { setTopics(req.data)});
-// console.log(getTopics);
 
 
-$.each(topics, function(index, topic) {
-  appendTopicTable(topic);
+let topics = [];
+
+// ----------- topic 목록 -----------
+
+// 조회버튼을 클릭 했을때... 조회조건에 해당되되는 topic 목록을 서버 rest api를 호출하여 화면에 출력한다.
+$("#searchBtn").on("click", function(){
+  // 1. 화면에 입력된 조회조건을 구하여 rest api 파라미터로 설정한다.
+  // TODO 조회조건 없이 프로그램이 정상 작동되면 제목을 조건으로 조회 되도록 해보자.
+
+  // 2. 파라미터가 설정된 rest api를 호출한 결과로 topic 목록을 구한다.
+  fetch('http://localhost:8080/topic').then((res) => { return res.json() } ).then( (topicsDate) =>  { 
+    // 3.1. 기존 화면에 출력된 topic 목록을 화면에서 재거한다.
+    for (let trLen = $("#topicTable tr").length; trLen > 1; trLen--) {
+      $("#topicTable > tbody:last > tr:last").remove();
+    }
+
+    // 3. 결과로 구해진 topic 목록을 화면에 출력한다.
+    topics = topicsDate;
+    topics.forEach(topic => { 
+      appendTopicTable(topic) 
+    });
+  }).catch(() => {
+    // 2.1. 만약 topic 목록 조회를 실패한 경우 실패 사유가 포힘된 메시지를 화면에 뛰운다.  
+    alert("topic 목록 조회를 실패하였습니다. 제시도 해주세요.");
+  });
 });
 
+// 신규버튼을 클릭 했을때... topic 등록 화면을 보여준다.
+$("#createBtn").on("click", function(){
+  // 1. topic 등록 화면에 해당되는 div 디스플레이 스타일을 block으로 설정하여 화면에 보이개 한다.
+  $("#createTopicDiv").show();
+});
 
 function appendTopicTable(topic) {
   $("#topicList").append(`<tr>
             <td>${topic.id}</td>
-            <td><a href="./detail.html/${topic.id}">${topic.title}</a></td>
+            <td><a id="detailTopic" href="./detail.html?id=${topic.id}">${topic.title}</a></td>
             <td>${topic.age}</td>
             <td>${topic.createAt}</td>
             <td><button type='button' 
-            onclick='topicDelete(this);'>X</button>
+            onclick='topicDelete(${topic.id});'>X</button>
         </tr>`);
 }
 
+// 삭제 버튼 클릭시 해당되는 topic를 삭제 한다.
 function topicDelete(ctl) {
+  // 1. 삭제 대상인 topic에 id를 구한다 
+  // 2. 해당id를 파라미터로 서버에 요청.
   $(ctl).parents("tr").remove();
 }
 
+// 신규 등록을 위해 rest api 호출하고 실패시 시 실패를 알리는 메시지를 화면에 출력하며
+// 성공시에는 rest api를 통해 목록을 조히 하여 화면에 다시 출력한다. 
+// ...
 $("#addTopic").on("submit", function(e) {
   e.preventDefault();
+
+  let today = new Date();
+
   let topic = {
-    createAt: dateString,
+    id :  topics[Object.keys(topics).sort().pop()].id + 1,
+    title : $('input[name="title"]').val().trim(),
+    age : $('input[name="age"]').val().trim(),
+    description : $('input[name="desc"]').val().trim(),
+    createAt: today.getFullYear() + '-' + ('0' + (today.getMonth() + 1)).slice(-2)  + '-' + ('0' + today.getDate()).slice(-2),
   };
 
-  $('input[name="title"]').val().trim();
-  $('input[name="age"]').val().trim();
-  $('input[name="desc"]').val().trim();
-
-  $("#addTopic").serializeArray().map(function(data) {
-      topic[data.name] = data.value;
+  fetch('http://localhost:8080/topic',{
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json;charset=utf-8'
+    },
+    body: JSON.stringify(topic)
   });
-  
-  let lastTopic = topics[Object.keys(topics).sort().pop()];
-  topic.id = lastTopic.id + 1;
 
-  addTopic(topic);
+
+addTopic(topic);
   formClear();
 });
 

@@ -4,30 +4,29 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="./node_modules/jquery/dist/jquery.min.js"></script>
-    <script defer src="./topicJS/topicList.js"></script>
-    
+    <script src="./node_modules/jquery/dist/jquery.min.js"></script>  
+    <script>
+        $(window).on('load', function () {
+            // 1. 파라미터러 잔달된 topic id로 rest api를 통해서 topic를 구하여 화면에 출력한다.
+            let topicId = new URL(window.location.href).searchParams.get("id");
+            fetch(`http://localhost:8080/topic/${topicId}`).then((res) => { return res.json() } ).then((topic) =>  { 
+                $("#detailTopicDiv").append(`<ul>
+                <li>No : ${topic.id}</li>
+                <li>Title : ${topic.title}</li>
+                <li>age : ${topic.age}</li>
+                <li>Description : ${topic.description}</li>
+                <li>Creation Date : ${topic.createAt}</li>
+                </ul>`);
+            });
+        });
+    </script>
+
     <title>상세 공지 내용</title>
 </head>
 <body>
     <div>
         <h2>Detail Topic</h2>
     </div>
-        <div>
-            <table id="detailTopic">
-                <thead>
-                    <tr>
-                        <th>No</th>
-                        <th>Title</th>
-                        <th>age</th>
-                        <th>Description</th>
-                        <th>Creation Date</th>
-                    </tr>
-                </thead>
-                <tbody id="detailTopic"></tbody>
-                </table>
-            </div>
-        </div>
-    </div>
+    <div id="detailTopicDiv"></div>
 </body>
 </html>

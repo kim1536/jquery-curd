@@ -3,13 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">\
     <script src="./node_modules/jquery/dist/jquery.min.js"></script>
     <script defer src="./topicJS/topicList.js"></script>
     
     <title>Topic List</title>
 </head>
 <body>
+    <div>
+        <button id="searchBtn">조회</button>
+        <button id="createBtn">신규</button>
+    </div>
+
     <div>
         <h2>Topic List</h2>
     </div>
@@ -28,7 +33,10 @@
             </div>
         </div>
     </div>
-    <div>
+
+
+
+    <div id="createTopicDiv" style="display:none;">
         <h3>Add Topic</h3>
         <form id="addTopic" action="">
             <label> Title: 
@@ -40,7 +48,7 @@
                 <label> Description: 
             <input  type="text" name="desc" placeholder="공지 내용" required>
             </label></br>
-            <button  type="submit">SUBMIT</button>
+            <button type="submit">등록</button>
         </form>
       </div>
 </body>
