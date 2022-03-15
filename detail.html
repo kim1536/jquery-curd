@@ -16,9 +16,13 @@
                 <li>age : ${topic.age}</li>
                 <li>Description : ${topic.description}</li>
                 <li>Creation Date : ${topic.createAt}</li>
-                </ul>`);
+                </ul>
+                <button type='button' onclick='goBack();'>Go Back</button>`);
             });
         });
+        function goBack(){
+            window.history.back();
+        }
     </script>
 
     <title>상세 공지 내용</title>
