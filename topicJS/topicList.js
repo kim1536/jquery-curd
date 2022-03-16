@@ -41,11 +41,9 @@ function appendTopicTable(topic) {
             <td><a id="detailTopic" href="./detail.html?id=${topic.id}">${topic.title}</a></td>
             <td>${topic.age}</td>
             <td>${topic.createAt}</td>
-            <td><button type='button' onclick="location.href='edit.html?id=${topic.id}'");'>수정</button></td>
             <td><button type='button' onclick='topicDelete(${topic.id});'>X</button></td>
         </tr>`);
 }
-
 
 
 // 삭제 버튼 클릭시 해당되는 topic를 삭제 한다.
@@ -55,7 +53,7 @@ function topicDelete(topicId) {
     method: "DELETE",
     headers:{'Content-Type': 'application/json'},
   }).then(res => res.json).then(res => {return res});
-  getTopicList();
+  // TODO 조회 버튼을 클릭 안해도 삭제한 topic을 제외한 topic 목록을 바로 화면에 출력할 수있도록 해보자.
 }
 
 // 신규 등록을 위해 rest api 호출하고 실패시 시 실패를 알리는 메시지를 화면에 출력하며
@@ -81,6 +79,8 @@ $("#addTopic").on("submit", function(e) {
     body: JSON.stringify(topic)
   });
   formClear();
+  // TODO 조회버튼을 클릭 안해도 입력한 값을 topic 목록에 바로 화면에 출력할 수있도록 해보자.
+  // appendTopicTable(topic);
 });
 
 
