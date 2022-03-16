@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="./node_modules/jquery/dist/jquery.min.js"></script>  
+    <script>
+        $(window).on('load', function () {
+            // 1. 파라미터러 잔달된 topic id로 rest api를 통해서 topic를 구하여 화면에 출력한다.
+            let topicId = new URL(window.location.href).searchParams.get("id");
+            fetch(`http://localhost:8080/topic/${topicId}`).then((res) => { return res.json() } ).then((topic) =>  { 
+                $("#detailTopicDiv").append(`<ul>
+                <li>No : ${topic.id}</li>
+                <li>Title : ${topic.title}</li>
+                <li>age : ${topic.age}</li>
+                <li>Description : ${topic.description}</li>
+                <li>Creation Date : ${topic.createAt}</li>
+                </ul>
+                <button type='button' onclick='goBack();'>Go Back</button>
+                <button type='button' onclick="location.href='edit.html?id=${topic.id}&&title=${topic.title}&&age=${topic.age}&&desc=${topic.description}'");'>수정하기</button>`);
+            });
+        });
+        function goBack(){
+            window.history.back();
+        }
+    </script>
+
+    <title>상세 공지 내용</title>
+</head>
+<body>
+    <div>
+        <h2>Detail Topic</h2>
+    </div>
+    <div id="detailTopicDiv"></div>
+</body>
+</html>
