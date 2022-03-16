@@ -7,7 +7,6 @@ let topicId = new URL(window.location.href).searchParams.get("id");
 let topicTitle = new URL(window.location.href).searchParams.get("title");
 let topicAge = new URL(window.location.href).searchParams.get("age");
 let topicDesc = new URL(window.location.href).searchParams.get("desc");
-debugger;
 $("#updateTopicDiv").append(`<form id="editTopic">
     <label> Title: 
         <input  type="text" name="title" placeholder="${topicTitle}" required>
