@@ -54,6 +54,7 @@ function topicDelete(topicId) {
     headers:{'Content-Type': 'application/json'},
   }).then(res => res.json).then(res => {return res});
   // TODO 조회 버튼을 클릭 안해도 삭제한 topic을 제외한 topic 목록을 바로 화면에 출력할 수있도록 해보자.
+  getTopicList();
 }
 
 // 신규 등록을 위해 rest api 호출하고 실패시 시 실패를 알리는 메시지를 화면에 출력하며
